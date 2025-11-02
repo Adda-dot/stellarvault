@@ -1,0 +1,1169 @@
+import React, { useState, useEffect } from 'react';
+import { 
+  ShieldCheck, 
+  TrendingUp, 
+  Users, 
+  Coins, 
+  Zap, 
+  Lock, 
+  BarChart3, 
+  Globe, 
+  Brain, 
+  Building, 
+  ArrowRight,
+  Twitter,
+  Github,
+  MessageCircle,
+  CheckCircle,
+  AlertCircle,
+  Wallet,
+  Database,
+  Network,
+  Shield,
+  Calculator,
+  Key
+} from 'lucide-react';
+import { motion } from 'framer-motion';
+
+const App = () => {
+  const [activeSection, setActiveSection] = useState('home');
+  const [vaultTier, setVaultTier] = useState('low');
+  const [depositAmount, setDepositAmount] = useState('');
+  const [projectedYield, setProjectedYield] = useState(0);
+  const [showDepositForm, setShowDepositForm] = useState(false);
+  const [depositStatus, setDepositStatus] = useState(null);
+  const [insuranceAmount, setInsuranceAmount] = useState('');
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Calculate projected yield based on vault tier
+  useEffect(() => {
+    const yields = {
+      low: 3.5,
+      medium: 8.5,
+      high: 15.0
+    };
+    const amount = parseFloat(depositAmount) || 0;
+    setProjectedYield(amount * (yields[vaultTier] / 100));
+  }, [depositAmount, vaultTier]);
+
+  const features = [
+    {
+      icon: <ShieldCheck className="w-8 h-8" />,
+      title: "Mutual Risk Pool",
+      description: "Automated protection against protocol failures and exploits through community-funded coverage.",
+      gradient: "from-sky-500 to-emerald-500"
+    },
+    {
+      icon: <TrendingUp className="w-8 h-8" />,
+      title: "Yield Aggregation",
+      description: "Intelligent allocation across multiple DeFi strategies to maximize returns while minimizing risk.",
+      gradient: "from-emerald-500 to-teal-500"
+    },
+    {
+      icon: <Users className="w-8 h-8" />,
+      title: "Tiered Vaults",
+      description: "Choose your risk profile: Conservative, Balanced, or High Yield with appropriate protection levels.",
+      gradient: "from-amber-500 to-orange-500"
+    },
+    {
+      icon: <Coins className="w-8 h-8" />,
+      title: "VaultShares",
+      description: "Track your ownership and growth with transparent, real-time yield visualization.",
+      gradient: "from-purple-500 to-pink-500"
+    }
+  ];
+
+  const vaultTiers = [
+    {
+      id: 'low',
+      name: 'Low Risk',
+      apy: '3.50%',
+      risk: 'Low',
+      protection: '99.5%',
+      fee: '0.50%',
+      strategy: 'Liquidity Pools',
+      description: 'Best for conservative investors',
+      color: 'bg-green-100 text-green-800 border-green-200',
+      iconColor: 'text-green-600',
+      gradient: 'from-green-400 to-emerald-500'
+    },
+    {
+      id: 'medium',
+      name: 'Medium Risk',
+      apy: '8.50%',
+      risk: 'Medium',
+      protection: '99.0%',
+      fee: '1.00%',
+      strategy: '60% Aqua LP + 40% Liquidity Pools',
+      description: 'Best for balanced investors',
+      color: 'bg-yellow-100 text-yellow-800 border-yellow-200',
+      iconColor: 'text-yellow-600',
+      gradient: 'from-amber-400 to-orange-500'
+    },
+    {
+      id: 'high',
+      name: 'High Risk',
+      apy: '15.00%',
+      risk: 'High',
+      protection: '98.0%',
+      fee: '2.00%',
+      strategy: 'Money Market',
+      description: 'Best for aggressive investors',
+      color: 'bg-red-100 text-red-800 border-red-200',
+      iconColor: 'text-red-600',
+      gradient: 'from-red-400 to-pink-500'
+    }
+  ];
+
+  const insuranceTiers = [
+    {
+      id: 'low',
+      name: 'Low Tier',
+      insured: '60%',
+      fee: '1.5%',
+      speed: 'Normal speed',
+      color: 'from-cyan-400 to-cyan-600',
+      percentage: 60
+    },
+    {
+      id: 'medium',
+      name: 'Medium Tier',
+      insured: '80%',
+      fee: '3.0%',
+      speed: 'Fast',
+      color: 'from-purple-400 to-purple-600',
+      percentage: 80
+    },
+    {
+      id: 'high',
+      name: 'High Tier',
+      insured: '100%',
+      fee: '5.0%',
+      speed: 'Instant',
+      color: 'from-emerald-400 to-emerald-600',
+      percentage: 100
+    }
+  ];
+
+  const roadmapItems = [
+    {
+      icon: <Brain className="w-6 h-6" />,
+      title: "AI-Driven Risk Scoring",
+      description: "Advanced machine learning models for real-time protocol risk assessment",
+      timeline: "Q1 2024",
+      gradient: "from-blue-500 to-cyan-500"
+    },
+    {
+      icon: <Building className="w-6 h-6" />,
+      title: "Tokenized RWAs",
+      description: "Integration with real-world assets for diversified yield opportunities",
+      timeline: "Q2 2024",
+      gradient: "from-emerald-500 to-teal-500"
+    },
+    {
+      icon: <Globe className="w-6 h-6" />,
+      title: "Cross-Chain Integrations",
+      description: "Expand protection and yield opportunities across multiple blockchains",
+      timeline: "Q3 2024",
+      gradient: "from-purple-500 to-pink-500"
+    }
+  ];
+
+  const faqs = [
+    {
+      question: "How do vault tiers work?",
+      answer: "Each tier represents a different risk-reward profile. Conservative focuses on stable, low-risk strategies, Balanced offers moderate returns with diversified exposure, while High Yield pursues maximum returns with comprehensive risk monitoring."
+    },
+    {
+      question: "What is the mutual risk pool?",
+      answer: "Our mutual risk pool is a community-funded reserve that automatically compensates users in case of protocol exploits or failures. All vault deposits contribute a small percentage to maintain this protection layer."
+    },
+    {
+      question: "What's the difference between market risk and protocol risk?",
+      answer: "Market risk refers to price volatility of underlying assets, which affects all investments. Protocol risk is specific to smart contract vulnerabilities or governance attacks, which our mutual risk pool protects against."
+    },
+    {
+      question: "How do withdrawals work?",
+      answer: "Withdrawals are processed instantly for Conservative tier, within 24 hours for Balanced, and may require up to 72 hours for High Yield due to strategy unwinding. All withdrawals include accumulated yield up to the withdrawal time."
+    }
+  ];
+
+  const handleDeposit = async () => {
+    if (!depositAmount || parseFloat(depositAmount) <= 0) {
+      alert('Please enter a valid deposit amount');
+      return;
+    }
+
+    setDepositStatus('processing');
+    
+    // Simulate processing steps - simplified without error messages
+    setTimeout(() => {
+      setDepositStatus('initiating');
+      setTimeout(() => {
+        setDepositStatus('submitting');
+        setTimeout(() => {
+          setDepositStatus('success');
+        }, 2000);
+      }, 1500);
+    }, 1000);
+  };
+
+  const calculateInsuredAmount = (tierPercentage) => {
+    const amount = parseFloat(insuranceAmount) || 0;
+    return (amount * tierPercentage / 100).toFixed(2);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-xl z-50 border-b border-slate-200/60">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-20">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-sky-500 to-emerald-500 rounded-xl flex items-center justify-center shadow-lg">
+                <Zap className="w-6 h-6 text-white" />
+              </div>
+              <span className="text-2xl font-bold bg-gradient-to-r from-sky-600 to-emerald-600 bg-clip-text text-transparent">
+                StellarVault
+              </span>
+            </div>
+            <div className="hidden md:flex space-x-8">
+              {['home', 'how-it-works', 'dashboard', 'insurance', 'about'].map((section) => (
+                <button
+                  key={section}
+                  onClick={() => setActiveSection(section)}
+                  className={`capitalize text-sm font-medium transition-all duration-300 ${
+                    activeSection === section 
+                      ? 'text-sky-600 font-semibold' 
+                      : 'text-slate-600 hover:text-sky-600 hover:font-semibold'
+                  }`}
+                >
+                  {section === 'insurance' ? 'Insurance & Protection' : section.replace('-', ' ')}
+                </button>
+              ))}
+            </div>
+            <motion.button 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowDepositForm(true)}
+              className="bg-gradient-to-r from-sky-600 to-emerald-600 text-white px-6 py-3 rounded-xl text-sm font-semibold hover:from-sky-700 hover:to-emerald-700 transition-all shadow-lg hover:shadow-xl"
+            >
+              Deposit Now
+            </motion.button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Deposit Modal */}
+      {showDepositForm && (
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl border border-slate-200"
+          >
+            <div className="flex justify-between items-center mb-8">
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 bg-gradient-to-br from-sky-500 to-emerald-500 rounded-lg flex items-center justify-center">
+                  <Wallet className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-slate-900">StellarVault</h3>
+              </div>
+              <button 
+                onClick={() => {
+                  setShowDepositForm(false);
+                  setDepositStatus(null);
+                }}
+                className="text-slate-400 hover:text-slate-600 transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+
+            {!depositStatus && (
+              <>
+                <div className="mb-8">
+                  <h4 className="font-semibold text-slate-900 mb-6 flex items-center">
+                    <Database className="w-5 h-5 mr-2 text-sky-600" />
+                    Select Risk Level
+                  </h4>
+                  <div className="space-y-4">
+                    {vaultTiers.map((tier) => (
+                      <motion.div
+                        key={tier.id}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => setVaultTier(tier.id)}
+                        className={`border-2 rounded-xl p-5 cursor-pointer transition-all duration-300 ${
+                          vaultTier === tier.id 
+                            ? `border-transparent bg-gradient-to-r ${tier.gradient} text-white shadow-lg`
+                            : 'border-slate-200 hover:border-slate-300 bg-slate-50 hover:bg-white'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="space-y-1">
+                            <div className={`font-semibold ${vaultTier === tier.id ? 'text-white' : 'text-slate-900'}`}>
+                              {tier.name}
+                            </div>
+                            <div className={`text-sm ${vaultTier === tier.id ? 'text-white/90' : 'text-slate-600'}`}>
+                              APY: {tier.apy} • Fee: {tier.fee}
+                            </div>
+                            <div className={`text-xs ${vaultTier === tier.id ? 'text-white/80' : 'text-slate-500'}`}>
+                              {tier.strategy}
+                            </div>
+                          </div>
+                          {vaultTier === tier.id && (
+                            <CheckCircle className="w-6 h-6 text-white" />
+                          )}
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mb-8">
+                  <label className="block text-sm font-medium text-slate-700 mb-3 flex items-center">
+                    <Coins className="w-4 h-4 mr-2 text-amber-600" />
+                    Enter deposit amount (XLM):
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="number"
+                      value={depositAmount}
+                      onChange={(e) => setDepositAmount(e.target.value)}
+                      placeholder="0.00"
+                      className="w-full px-5 py-4 border border-slate-300 rounded-xl focus:ring-3 focus:ring-sky-500/30 focus:border-sky-500 transition-all text-lg"
+                    />
+                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-400 font-medium">
+                      XLM
+                    </div>
+                  </div>
+                </div>
+
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleDeposit}
+                  disabled={!depositAmount || parseFloat(depositAmount) <= 0}
+                  className="w-full bg-gradient-to-r from-sky-600 to-emerald-600 text-white py-4 rounded-xl font-semibold hover:from-sky-700 hover:to-emerald-700 transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Process Deposit
+                </motion.button>
+              </>
+            )}
+
+            {depositStatus && (
+              <div className="space-y-6">
+                {depositStatus === 'processing' && (
+                  <div className="text-center py-8">
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      className="w-12 h-12 border-4 border-sky-500 border-t-transparent rounded-full mx-auto mb-6"
+                    ></motion.div>
+                    <p className="text-slate-600 font-medium">Processing your deposit to StellarVault...</p>
+                  </div>
+                )}
+
+                {depositStatus === 'initiating' && (
+                  <div className="space-y-3 text-sm">
+                    <div className="flex items-center space-x-2 text-slate-600">
+                      <Network className="w-4 h-4 text-sky-600" />
+                      <span>Initiating deposit to StellarVault...</span>
+                    </div>
+                    <p className="text-slate-600 pl-6">   Risk Level: {vaultTiers.find(t => t.id === vaultTier)?.name.split(' ')[0]}</p>
+                    <p className="text-slate-600 pl-6">   Amount: {depositAmount} XLM</p>
+                  </div>
+                )}
+
+                {depositStatus === 'submitting' && (
+                  <div className="space-y-3 text-sm">
+                    <div className="flex items-center space-x-2 text-slate-600">
+                      <Globe className="w-4 h-4 text-emerald-600" />
+                      <span>Submitting transaction to Stellar Testnet...</span>
+                    </div>
+                    <p className="text-slate-600 pl-6">   To: deposited to StellarVault</p>
+                    <p className="text-slate-600 pl-6">   Amount: {depositAmount} XLM</p>
+                  </div>
+                )}
+
+                {depositStatus === 'success' && (
+                  <div className="space-y-6">
+                    <div className="text-center">
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"
+                      >
+                        <CheckCircle className="w-8 h-8 text-green-600" />
+                      </motion.div>
+                      <p className="text-green-600 font-bold text-lg">Transaction complete!</p>
+                      <p className="text-slate-600 mt-2">Amount transferred successfully</p>
+                    </div>
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => {
+                        setShowDepositForm(false);
+                        setDepositStatus(null);
+                        setDepositAmount('');
+                      }}
+                      className="w-full bg-gradient-to-r from-sky-600 to-emerald-600 text-white py-4 rounded-xl font-semibold hover:from-sky-700 hover:to-emerald-700 transition-all shadow-lg hover:shadow-xl"
+                    >
+                      Close
+                    </motion.button>
+                  </div>
+                )}
+              </div>
+            )}
+          </motion.div>
+        </div>
+      )}
+
+      {/* Insurance & Protection Page */}
+      {activeSection === 'insurance' && (
+        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+            {/* Header Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-center mb-20"
+            >
+              <div className="flex items-center justify-center space-x-4 mb-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-cyan-400 to-purple-500 rounded-2xl flex items-center justify-center shadow-2xl">
+                  <Shield className="w-8 h-8 text-white" />
+                </div>
+                <h1 className="text-6xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-emerald-400 bg-clip-text text-transparent">
+                  Insurance & Protection
+                </h1>
+              </div>
+              <p className="text-xl text-slate-300 max-w-3xl mx-auto">
+                Your deposits are secured through tier-based on-chain insurance.
+              </p>
+            </motion.div>
+
+            {/* Coverage Tiers Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="grid md:grid-cols-3 gap-8 mb-20"
+            >
+              {insuranceTiers.map((tier, index) => (
+                <motion.div
+                  key={tier.id}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: index * 0.2 }}
+                  whileHover={{ scale: 1.05, y: -10 }}
+                  className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20 hover:border-cyan-400/50 transition-all duration-300 shadow-2xl"
+                >
+                  <div className="text-center mb-6">
+                    <div className={`w-16 h-16 bg-gradient-to-br ${tier.color} rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg`}>
+                      <ShieldCheck className="w-8 h-8 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-2">{tier.name}</h3>
+                    <div className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent mb-2">
+                      {tier.insured}
+                    </div>
+                    <div className="text-slate-300">Fee: {tier.fee}</div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <div className="flex justify-between text-sm text-slate-300 mb-2">
+                        <span>Coverage</span>
+                        <span>{tier.insured}</span>
+                      </div>
+                      <div className="w-full bg-slate-700 rounded-full h-3">
+                        <div 
+                          className={`h-3 rounded-full bg-gradient-to-r ${tier.color}`}
+                          style={{ width: `${tier.percentage}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center justify-center space-x-2 text-slate-300">
+                      <Key className="w-4 h-4" />
+                      <span className="text-sm font-medium">{tier.speed}</span>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* Info Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="grid lg:grid-cols-2 gap-12 items-center mb-20"
+            >
+              <div className="space-y-6">
+                <h2 className="text-4xl font-bold text-white mb-6">How It Works</h2>
+                <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-white/10">
+                  <p className="text-lg text-slate-200 leading-relaxed mb-6">
+                    Every deposit tier is protected by decentralized insurance pools and verified through multi-signature cold wallets.
+                    The higher your tier, the faster your transaction and the greater your protection.
+                  </p>
+                  <div className="flex items-center space-x-3 text-slate-300">
+                    <Lock className="w-5 h-5" />
+                    <span className="text-sm">Enterprise-grade security protocols</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex justify-center">
+                <motion.div
+                  animate={{ 
+                    rotate: [0, 5, -5, 5, 0],
+                    scale: [1, 1.05, 1, 1.05, 1]
+                  }}
+                  transition={{ 
+                    duration: 3,
+                    repeat: Infinity,
+                    repeatType: "reverse"
+                  }}
+                  className="relative"
+                >
+                  <div className="w-64 h-64 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 rounded-3xl flex items-center justify-center border-2 border-cyan-400/30">
+                    <div className="w-48 h-48 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border-2 border-white/20 flex items-center justify-center">
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                        className="w-32 h-32 bg-gradient-to-br from-cyan-400 to-purple-500 rounded-full flex items-center justify-center"
+                      >
+                        <Lock className="w-12 h-12 text-white" />
+                      </motion.div>
+                    </div>
+                  </div>
+                  <div className="absolute -inset-4 bg-gradient-to-r from-cyan-400/20 to-purple-400/20 rounded-3xl blur-xl"></div>
+                </motion.div>
+              </div>
+            </motion.div>
+
+            {/* Insurance Calculator */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="bg-white/5 backdrop-blur-lg rounded-3xl p-8 border border-white/10 mb-12"
+            >
+              <div className="flex items-center space-x-3 mb-6">
+                <Calculator className="w-6 h-6 text-cyan-400" />
+                <h3 className="text-2xl font-bold text-white">Insurance Calculator</h3>
+              </div>
+              
+              <div className="grid md:grid-cols-2 gap-8">
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-3">
+                    Enter deposit amount (XLM):
+                  </label>
+                  <input
+                    type="number"
+                    value={insuranceAmount}
+                    onChange={(e) => setInsuranceAmount(e.target.value)}
+                    placeholder="0.00"
+                    className="w-full px-5 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+                  />
+                </div>
+                
+                <div className="space-y-4">
+                  {insuranceTiers.map((tier) => (
+                    <div key={tier.id} className="bg-white/5 rounded-xl p-4 border border-white/10">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-slate-300">{tier.name}</span>
+                        <span className="font-bold text-cyan-400">
+                          {insuranceAmount ? `${calculateInsuredAmount(tier.percentage)} XLM` : '0.00 XLM'}
+                        </span>
+                      </div>
+                      <div className="text-xs text-slate-400">
+                        {tier.insured} coverage • {tier.fee} fee
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+
+            {/* CTA Button */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              className="text-center"
+            >
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setActiveSection('home')}
+                className="bg-gradient-to-r from-cyan-500 to-purple-500 text-white px-12 py-5 rounded-2xl text-xl font-bold hover:from-cyan-600 hover:to-purple-600 transition-all shadow-2xl hover:shadow-cyan-500/25"
+              >
+                Return to Deposit Panel
+              </motion.button>
+            </motion.div>
+          </div>
+        </div>
+      )}
+
+      {/* Hero Section */}
+      {activeSection === 'home' && (
+        <section className="pt-32 pb-24 bg-gradient-to-br from-sky-50 via-white to-emerald-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                className="space-y-8"
+              >
+                <h1 className="text-6xl lg:text-7xl font-bold text-slate-900 leading-tight">
+                  Maximize Yield. <br />
+                  <span className="bg-gradient-to-r from-sky-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent">
+                    Protect Your Assets.
+                  </span>
+                </h1>
+                <p className="text-xl text-slate-600 leading-relaxed max-w-2xl">
+                  The world's first Smart Yield Insurance Aggregator combining intelligent yield optimization with automated risk protection on the Stellar network.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-6">
+                  <motion.button 
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setShowDepositForm(true)}
+                    className="bg-gradient-to-r from-sky-600 to-emerald-600 text-white px-10 py-5 rounded-2xl text-lg font-bold hover:from-sky-700 hover:to-emerald-700 transition-all shadow-2xl hover:shadow-3xl"
+                  >
+                    Deposit Now
+                  </motion.button>
+                  <motion.button 
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setActiveSection('how-it-works')}
+                    className="border-2 border-slate-300 text-slate-700 px-10 py-5 rounded-2xl text-lg font-bold hover:border-sky-500 hover:text-sky-600 transition-all hover:shadow-lg"
+                  >
+                    Learn How It Works
+                  </motion.button>
+                </div>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="relative"
+              >
+                <div className="bg-white rounded-3xl p-8 shadow-2xl border border-slate-200/50">
+                  <div className="space-y-8">
+                    <div className="flex items-center justify-between p-4 bg-gradient-to-r from-sky-50 to-emerald-50 rounded-2xl border border-slate-200/30">
+                      <div className="flex items-center space-x-4">
+                        <div className="w-14 h-14 bg-gradient-to-br from-sky-500 to-emerald-500 rounded-2xl flex items-center justify-center">
+                          <Coins className="w-7 h-7 text-white" />
+                        </div>
+                        <div>
+                          <p className="font-bold text-slate-900">Deposit</p>
+                          <p className="text-sm text-slate-600">XLM, USDC</p>
+                        </div>
+                      </div>
+                      <ArrowRight className="w-8 h-8 text-slate-400" />
+                    </div>
+                    
+                    <div className="flex items-center justify-between p-4 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl border border-slate-200/30">
+                      <div className="flex items-center space-x-4">
+                        <div className="w-14 h-14 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center">
+                          <TrendingUp className="w-7 h-7 text-white" />
+                        </div>
+                        <div>
+                          <p className="font-bold text-slate-900">Yield Strategies</p>
+                          <p className="text-sm text-slate-600">PoS, AMM, RWAs</p>
+                        </div>
+                      </div>
+                      <ArrowRight className="w-8 h-8 text-slate-400" />
+                    </div>
+                    
+                    <div className="flex items-center space-x-4 p-4 bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl border border-slate-200/30">
+                      <div className="w-14 h-14 bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl flex items-center justify-center">
+                        <ShieldCheck className="w-7 h-7 text-white" />
+                      </div>
+                      <div>
+                        <p className="font-bold text-slate-900">Risk Protection</p>
+                        <p className="text-sm text-slate-600">Mutual Coverage Pool</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-pink-400 to-rose-500 rounded-full opacity-20 blur-xl"></div>
+                <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-gradient-to-br from-sky-400 to-emerald-500 rounded-full opacity-20 blur-xl"></div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Features Section */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-20"
+          >
+            <h2 className="text-5xl font-bold text-slate-900 mb-6">
+              Smart Yield Insurance <br />
+              <span className="bg-gradient-to-r from-sky-600 to-emerald-600 bg-clip-text text-transparent">
+                Aggregation
+              </span>
+            </h2>
+            <p className="text-xl text-slate-600 max-w-4xl mx-auto">
+              StellarVault combines cutting-edge DeFi strategies with automated risk protection to deliver optimal returns with peace of mind.
+            </p>
+          </motion.div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {features.map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                whileHover={{ y: -10 }}
+                className="bg-gradient-to-b from-white to-slate-50 rounded-2xl p-8 hover:shadow-2xl transition-all duration-300 border border-slate-200/50"
+              >
+                <div className={`w-14 h-14 bg-gradient-to-br ${feature.gradient} rounded-2xl flex items-center justify-center mb-6 shadow-lg`}>
+                  {feature.icon}
+                </div>
+                <h3 className="text-2xl font-bold text-slate-900 mb-4">{feature.title}</h3>
+                <p className="text-slate-600 leading-relaxed">{feature.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      {activeSection === 'how-it-works' && (
+        <section className="py-24 bg-gradient-to-br from-slate-50 to-blue-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-20"
+            >
+              <h2 className="text-5xl font-bold text-slate-900 mb-6">How StellarVault Works</h2>
+              <p className="text-xl text-slate-600">A three-step process to maximize your yield while protecting your assets</p>
+            </motion.div>
+            <div className="grid lg:grid-cols-3 gap-12">
+              <motion.div
+                initial={{ opacity: 0, x: -40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="text-center"
+              >
+                <div className="w-24 h-24 bg-gradient-to-br from-sky-500 to-emerald-500 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl">
+                  <span className="text-4xl font-bold text-white">1</span>
+                </div>
+                <h3 className="text-3xl font-bold text-slate-900 mb-6">Deposit & Select Vault</h3>
+                <p className="text-slate-600 mb-6 leading-relaxed">
+                  Deposit XLM or USDC and choose your preferred vault tier based on your risk tolerance and yield expectations.
+                </p>
+                <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-lg">
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium text-slate-600">Low Risk</span>
+                      <span className="text-sm font-bold text-emerald-600">3.50% APY</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium text-slate-600">Medium Risk</span>
+                      <span className="text-sm font-bold text-amber-600">8.50% APY</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium text-slate-600">High Risk</span>
+                      <span className="text-sm font-bold text-red-600">15.00% APY</span>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="text-center"
+              >
+                <div className="w-24 h-24 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl">
+                  <span className="text-4xl font-bold text-white">2</span>
+                </div>
+                <h3 className="text-3xl font-bold text-slate-900 mb-6">Smart Allocation</h3>
+                <p className="text-slate-600 mb-6 leading-relaxed">
+                  Your funds are intelligently allocated across multiple yield strategies including PoS staking, AMM liquidity pools, and tokenized real-world assets.
+                </p>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-center space-x-3 p-3 bg-emerald-50 rounded-xl">
+                    <div className="w-3 h-3 bg-emerald-500 rounded-full"></div>
+                    <span className="text-sm font-medium text-emerald-800">Liquidity Pools</span>
+                  </div>
+                  <div className="flex items-center justify-center space-x-3 p-3 bg-amber-50 rounded-xl">
+                    <div className="w-3 h-3 bg-amber-500 rounded-full"></div>
+                    <span className="text-sm font-medium text-amber-800">Aqua LP + Liquidity Pools</span>
+                  </div>
+                  <div className="flex items-center justify-center space-x-3 p-3 bg-red-50 rounded-xl">
+                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                    <span className="text-sm font-medium text-red-800">Money Market</span>
+                  </div>
+                </div>
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, x: 40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="text-center"
+              >
+                <div className="w-24 h-24 bg-gradient-to-br from-amber-500 to-orange-500 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl">
+                  <span className="text-4xl font-bold text-white">3</span>
+                </div>
+                <h3 className="text-3xl font-bold text-slate-900 mb-6">Automated Protection</h3>
+                <p className="text-slate-600 mb-6 leading-relaxed">
+                  Your investment is protected by our mutual risk pool, which automatically covers losses from protocol exploits or failures.
+                </p>
+                <div className="bg-gradient-to-r from-sky-500 to-emerald-500 rounded-2xl p-6 text-white shadow-lg">
+                  <ShieldCheck className="w-10 h-10 mx-auto mb-4" />
+                  <p className="text-lg font-bold">Up to 99.5% Protection Coverage</p>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Dashboard Preview */}
+      {activeSection === 'dashboard' && (
+        <section className="py-24 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-20"
+            >
+              <h2 className="text-5xl font-bold text-slate-900 mb-6">Dashboard Preview</h2>
+              <p className="text-xl text-slate-600">Monitor your investments and track growth in real-time</p>
+            </motion.div>
+            <div className="bg-gradient-to-br from-slate-50 to-blue-50 rounded-3xl p-12 border border-slate-200/30 shadow-2xl">
+              <div className="grid lg:grid-cols-2 gap-16">
+                {/* Deposit Interface */}
+                <div className="space-y-8">
+                  <h3 className="text-3xl font-bold text-slate-900">Deposit Funds</h3>
+                  <div className="space-y-6">
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-3">Amount</label>
+                      <div className="relative">
+                        <input
+                          type="number"
+                          value={depositAmount}
+                          onChange={(e) => setDepositAmount(e.target.value)}
+                          placeholder="0.00"
+                          className="w-full px-6 py-4 border border-slate-300 rounded-2xl focus:ring-3 focus:ring-sky-500/30 focus:border-sky-500 transition-all text-lg"
+                        />
+                        <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-400 font-medium">
+                          XLM
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-3">Asset</label>
+                      <select className="w-full px-6 py-4 border border-slate-300 rounded-2xl focus:ring-3 focus:ring-sky-500/30 focus:border-sky-500 transition-all">
+                        <option>XLM</option>
+                        <option>USDC</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-3">Vault Tier</label>
+                      <div className="grid grid-cols-3 gap-3">
+                        {vaultTiers.map((tier) => (
+                          <motion.button
+                            key={tier.id}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => setVaultTier(tier.id)}
+                            className={`px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
+                              vaultTier === tier.id
+                                ? `bg-gradient-to-r ${tier.gradient} text-white shadow-lg`
+                                : 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-50'
+                            }`}
+                          >
+                            {tier.name.split(' ')[0]}
+                          </motion.button>
+                        ))}
+                      </div>
+                    </div>
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => setShowDepositForm(true)}
+                      className="w-full bg-gradient-to-r from-sky-600 to-emerald-600 text-white py-4 rounded-2xl font-semibold hover:from-sky-700 hover:to-emerald-700 transition-all shadow-lg hover:shadow-xl"
+                    >
+                      Deposit Now
+                    </motion.button>
+                  </div>
+                </div>
+                
+                {/* Growth Visualization */}
+                <div className="space-y-8">
+                  <h3 className="text-3xl font-bold text-slate-900">Projected Growth</h3>
+                  <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-lg">
+                    <div className="space-y-6">
+                      <div>
+                        <div className="flex justify-between mb-3">
+                          <span className="text-sm font-medium text-slate-700">Current Balance</span>
+                          <span className="text-sm font-bold text-slate-900">
+                            {depositAmount || '0.00'} {depositAmount ? 'XLM' : ''}
+                          </span>
+                        </div>
+                        <div className="w-full bg-slate-200 rounded-full h-3">
+                          <div 
+                            className="bg-gradient-to-r from-sky-500 to-emerald-500 h-3 rounded-full transition-all duration-700"
+                            style={{ width: depositAmount ? '100%' : '0%' }}
+                          ></div>
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex justify-between mb-3">
+                          <span className="text-sm font-medium text-slate-700">Projected Yield (1yr)</span>
+                          <span className="text-sm font-bold text-emerald-600">
+                            {projectedYield.toFixed(2)} {depositAmount ? 'XLM' : ''}
+                          </span>
+                        </div>
+                        <div className="w-full bg-slate-200 rounded-full h-3">
+                          <div 
+                            className="bg-emerald-500 h-3 rounded-full transition-all duration-700"
+                            style={{ width: depositAmount ? `${Math.min((projectedYield / (parseFloat(depositAmount) || 1)) * 100, 100)}%` : '0%' }}
+                          ></div>
+                        </div>
+                      </div>
+                      <div className="pt-6 border-t border-slate-200">
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm font-medium text-slate-600">VaultShare Balance</span>
+                          <span className="text-2xl font-bold text-slate-900">
+                            {depositAmount ? (parseFloat(depositAmount) + projectedYield).toFixed(2) : '0.00'} XLM
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className={`rounded-2xl p-6 border ${vaultTiers.find(t => t.id === vaultTier)?.color} shadow-lg`}>
+                    <div className="flex items-center space-x-3">
+                      <ShieldCheck className="w-6 h-6" />
+                      <span className="text-lg font-bold">
+                        {vaultTiers.find(t => t.id === vaultTier)?.protection} Protection Coverage
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* About / Vision */}
+      {activeSection === 'about' && (
+        <section className="py-24 bg-gradient-to-br from-slate-50 to-blue-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-20"
+            >
+              <h2 className="text-5xl font-bold text-slate-900 mb-6">Our Vision</h2>
+              <p className="text-xl text-slate-600 max-w-4xl mx-auto">
+                Combining yield optimization with automated risk protection to create the safest DeFi experience on Stellar.
+              </p>
+            </motion.div>
+            
+            <div className="grid lg:grid-cols-2 gap-16 mb-20">
+              <motion.div
+                initial={{ opacity: 0, x: -40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="space-y-8"
+              >
+                <h3 className="text-3xl font-bold text-slate-900 mb-8">Why StellarVault?</h3>
+                <p className="text-slate-600 text-lg leading-relaxed mb-8">
+                  StellarVault addresses the critical gap in DeFi: the lack of integrated insurance solutions. While traditional yield aggregators focus solely on maximizing returns, we understand that true yield optimization requires comprehensive risk management.
+                </p>
+                <p className="text-slate-600 text-lg leading-relaxed">
+                  Our platform leverages the Stellar network's advantages—low fees, fast settlement, and global scalability—to deliver a seamless experience that doesn't compromise on security or performance.
+                </p>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: 40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="space-y-6"
+              >
+                <div className="flex items-start space-x-4 p-6 bg-white rounded-2xl border border-slate-200 shadow-lg">
+                  <div className="w-12 h-12 bg-gradient-to-br from-sky-500 to-emerald-500 rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <Globe className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-xl text-slate-900 mb-2">Stellar Network</h4>
+                    <p className="text-slate-600">Ultra-low fees and 3-5 second settlement times</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4 p-6 bg-white rounded-2xl border border-slate-200 shadow-lg">
+                  <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <Lock className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-xl text-slate-900 mb-2">Security First</h4>
+                    <p className="text-slate-600">Multi-layered protection with automated coverage</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4 p-6 bg-white rounded-2xl border border-slate-200 shadow-lg">
+                  <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <BarChart3 className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-xl text-slate-900 mb-2">Optimized Returns</h4>
+                    <p className="text-slate-600">Intelligent strategy allocation for maximum yield</p>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-12"
+            >
+              <h3 className="text-4xl font-bold text-slate-900 mb-12">Roadmap</h3>
+            </motion.div>
+            <div className="grid md:grid-cols-3 gap-8">
+              {roadmapItems.map((item, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  whileHover={{ y: -10 }}
+                  className="bg-white rounded-2xl p-8 border border-slate-200 hover:shadow-2xl transition-all"
+                >
+                  <div className={`w-12 h-12 bg-gradient-to-br ${item.gradient} rounded-2xl flex items-center justify-center mb-6 shadow-lg`}>
+                    {item.icon}
+                  </div>
+                  <h4 className="text-2xl font-bold text-slate-900 mb-4">{item.title}</h4>
+                  <p className="text-slate-600 text-sm mb-6 leading-relaxed">{item.description}</p>
+                  <div className="bg-sky-100 text-sky-800 text-xs font-bold px-4 py-2 rounded-full inline-block">
+                    {item.timeline}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* FAQ Section */}
+      <section className="py-24 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-20"
+          >
+            <h2 className="text-5xl font-bold text-slate-900 mb-6">Frequently Asked Questions</h2>
+            <p className="text-xl text-slate-600">Everything you need to know about StellarVault</p>
+          </motion.div>
+          <div className="space-y-8">
+            {faqs.map((faq, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-gradient-to-r from-slate-50 to-blue-50 rounded-2xl p-8 border border-slate-200/50 hover:shadow-lg transition-all"
+              >
+                <div className="flex items-start space-x-4">
+                  <div className="w-8 h-8 bg-gradient-to-br from-sky-500 to-emerald-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                    <AlertCircle className="w-4 h-4 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-slate-900 mb-4">{faq.question}</h3>
+                    <p className="text-slate-600 text-lg leading-relaxed">{faq.answer}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gradient-to-r from-slate-900 to-slate-800 text-white py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-4 gap-12">
+            <div className="md:col-span-2">
+              <div className="flex items-center space-x-4 mb-8">
+                <div className="w-12 h-12 bg-gradient-to-br from-sky-500 to-emerald-500 rounded-2xl flex items-center justify-center shadow-2xl">
+                  <Zap className="w-7 h-7 text-white" />
+                </div>
+                <span className="text-3xl font-bold bg-gradient-to-r from-sky-400 to-emerald-400 bg-clip-text text-transparent">
+                  StellarVault
+                </span>
+              </div>
+              <p className="text-slate-300 mb-8 max-w-md text-lg leading-relaxed">
+                The world's first Smart Yield Insurance Aggregator, combining intelligent yield optimization with automated risk protection on the Stellar network.
+              </p>
+              <div className="flex space-x-6">
+                <a href="#" className="text-slate-400 hover:text-sky-400 transition-colors hover:scale-110">
+                  <Twitter className="w-7 h-7" />
+                </a>
+                <a href="#" className="text-slate-400 hover:text-sky-400 transition-colors hover:scale-110">
+                  <Github className="w-7 h-7" />
+                </a>
+                <a href="#" className="text-slate-400 hover:text-sky-400 transition-colors hover:scale-110">
+                  <MessageCircle className="w-7 h-7" />
+                </a>
+              </div>
+            </div>
+            <div>
+              <h4 className="font-bold text-xl mb-6 text-sky-400">Quick Links</h4>
+              <ul className="space-y-4 text-slate-300">
+                <li><a href="#" className="hover:text-white transition-colors hover:font-medium">Dashboard</a></li>
+                <li><a href="#" className="hover:text-white transition-colors hover:font-medium">Documentation</a></li>
+                <li><a href="#" className="hover:text-white transition-colors hover:font-medium">GitHub</a></li>
+                <li><a href="#" className="hover:text-white transition-colors hover:font-medium">Hackathon</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold text-xl mb-6 text-sky-400">Legal</h4>
+              <ul className="space-y-4 text-slate-300">
+                <li><a href="#" className="hover:text-white transition-colors hover:font-medium">Terms of Service</a></li>
+                <li><a href="#" className="hover:text-white transition-colors hover:font-medium">Privacy Policy</a></li>
+                <li><a href="#" className="hover:text-white transition-colors hover:font-medium">Risk Disclosure</a></li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-slate-700 mt-12 pt-8 text-center text-slate-400">
+            <p className="text-lg">&copy; 2024 StellarVault. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default App;
